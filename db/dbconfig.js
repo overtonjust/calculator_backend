@@ -1,9 +1,6 @@
 // Dependencies
-import pgPromise from 'pg-promise';
-import dotenv from 'dotenv';
-dotenv.config();
-
-const pgp = pgPromise();
+const pgp = require('pg-promise')()
+require('dotenv').config();
 
 const cn = {
     host: process.env.PG_HOST,
@@ -30,4 +27,4 @@ db.connect()
   })
   .catch((error) => console.log("database connection error", error));
 
-export { db, close };
+module.exports = { db, close };

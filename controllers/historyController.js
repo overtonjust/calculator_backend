@@ -1,9 +1,9 @@
-import express from 'express';
+const express = require('express');
 const history = express.Router();
 
-import {
+const {
     viewAllCalcs
-} from '../queries/historyQueries.js';
+} = require('../queries/historyQueries');
 
 
 history.get('/', async (req, res) => {
@@ -16,4 +16,4 @@ history.get('/', async (req, res) => {
     }
 });
 
-export { history }
+module.exports = history;

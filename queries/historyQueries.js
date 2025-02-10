@@ -1,4 +1,4 @@
-import { db } from "../db/dbconfig.js";
+const db = require('../db/dbconfig');
 
 const viewAllCalcs = async () => {
     try {
@@ -10,4 +10,4 @@ const viewAllCalcs = async () => {
 };
 
 
-export { viewAllCalcs };
+module.exports = { viewAllCalcs };

@@ -1,6 +1,6 @@
-import express from 'express';
-import cors from 'cors';
-import { history as historyController } from './controllers/historyController.js';
+const express = require('express');
+const cors = require('cors');
+const historyController = require('./controllers/historyController');
 const app = express();
 
 app.use(express.json());
@@ -15,4 +15,4 @@ app.get("*", (req, res) => {
     res.status(404).json({error: "Path not found"})
 });
 
-export { app }
+module.exports = app; 
