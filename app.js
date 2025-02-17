@@ -4,7 +4,8 @@ const historyController = require('./controllers/historyController');
 const app = express();
 
 app.use(express.json());
-app.use(cors('*'));
+app.use(cors());
+
 app.use('/history', historyController);
 
 app.get("/", (req, res) => {

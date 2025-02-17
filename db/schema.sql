@@ -10,7 +10,6 @@ CREATE TABLE history_dates (
 
 CREATE TABLE history (
     id SERIAL PRIMARY KEY,
-    time_recorded DATE NOT NULL DEFAULT CURRENT_DATE,
     calculation TEXT NOT NULL,
     history_date_id INT REFERENCES history_dates(id)
 );
