@@ -4,7 +4,8 @@ const history = express.Router();
 const {
     viewAllCalcs,
     addCalcToHistory,
-    updateExistingCalc
+    updateExistingCalc, 
+    deleteCalculationById
 } = require('../queries/historyQueries');
 
 
@@ -31,9 +32,9 @@ history.post('/', async (req, res) => {
 
 history.put('/:id', async (req, res) => {
     const { calculation } = req.body;
-    const calcId = req.params.id;
+    const { id } = req.params;
 
-    const updatedCalc = await updateExistingCalc(calculation, calcId);
+    const updatedCalc = await updateExistingCalc(calculation, id);
 
     if(updatedCalc.id) {
         res.status(200).send('Calc successfully updated')
@@ -43,7 +44,15 @@ history.put('/:id', async (req, res) => {
 });
 
 history.delete('/:id', async (req, res) => {
+    const { id } = req.params;
 
+    const removedCalc = await deleteCalculationById(id);
+
+    if(removedCalc.id) {
+        res.status(200).json({message: "Calc successfully removed"})
+    } else {
+        res.status(400).json({error: "something went wrong"})
+    }
 });
 
 module.exports = history;

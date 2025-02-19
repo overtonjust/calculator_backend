@@ -58,4 +58,13 @@ const updateExistingCalc = async (calculation, calcId) => {
     }
 }
 
-module.exports = { viewAllCalcs, addCalcToHistory, updateExistingCalc };
+const deleteCalculationById = async (calcId) => {
+    try {
+        const deletedCalc = await db.one('DELETE FROM history WHERE id = $1 RETURNING *', calcId);
+        return deletedCalc;
+    } catch (error) {
+        return error;
+    }
+}
+
+module.exports = { viewAllCalcs, addCalcToHistory, updateExistingCalc, deleteCalculationById };
