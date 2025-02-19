@@ -3,7 +3,7 @@ const { db } = require('../db/dbconfig.js');
 const viewAllCalcs = async () => {
     try {
         const calcHistory = await db.any(`
-            SELECT hd.time_recorded, json_agg(h.calculation) AS calculations
+            SELECT hd.time_recorded, json_agg(json_build_object('id', h.id, 'calculation', h.calculation)) AS calculations
             FROM history h
             JOIN history_dates hd ON h.history_date_id = hd.id
             GROUP BY hd.time_recorded
@@ -45,4 +45,17 @@ const addCalcToHistory = async (calculation) => {
     }
 }
 
-module.exports = { viewAllCalcs, addCalcToHistory };
+const updateExistingCalc = async (calculation, calcId) => {
+    try {
+        const updatedCalc = await db.one('UPDATE history set calculation = $1 WHERE id = $2 RETURNING *', [
+            calculation,
+            calcId
+        ]);
+        return updatedCalc;
+
+    } catch (error) {
+        return error;
+    }
+}
+
+module.exports = { viewAllCalcs, addCalcToHistory, updateExistingCalc };

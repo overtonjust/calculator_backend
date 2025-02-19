@@ -3,7 +3,8 @@ const history = express.Router();
 
 const {
     viewAllCalcs,
-    addCalcToHistory
+    addCalcToHistory,
+    updateExistingCalc
 } = require('../queries/historyQueries');
 
 
@@ -29,7 +30,16 @@ history.post('/', async (req, res) => {
 });
 
 history.put('/:id', async (req, res) => {
+    const { calculation } = req.body;
+    const calcId = req.params.id;
 
+    const updatedCalc = await updateExistingCalc(calculation, calcId);
+
+    if(updatedCalc.id) {
+        res.status(200).send('Calc successfully updated')
+    } else {
+        res.status(500).json({error: "something went wrong"})
+    }
 });
 
 history.delete('/:id', async (req, res) => {
